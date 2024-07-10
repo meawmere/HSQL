@@ -1,7 +1,9 @@
 package net.meawmere.HSQL;
 
 import net.meawmere.HSQL.events.IEventsListener;
+import net.meawmere.HSQL.events.source.GET;
 import net.meawmere.HSQL.events.source.READY;
+import net.meawmere.HSQL.events.source.UPDATE;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
@@ -27,11 +29,21 @@ public class HSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        for (IEventsListener event : listeners) {
+            event.UPDATE(new UPDATE(execute));
+        }
     }
 
     public ResultSet get(String execute) throws SQLException {
         Connection connection = DriverManager.getConnection(this.url);
-         Statement statement = connection.createStatement();
-        return statement.executeQuery(execute);
+        Statement statement = connection.createStatement();
+        ResultSet output = statement.executeQuery(execute);
+
+        for (IEventsListener event : listeners) {
+            event.GET(new GET(execute, output));
+        }
+
+        return output;
     }
 }
