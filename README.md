@@ -2,19 +2,6 @@
 HSQL - Helper SQL. It is needed to simplify working with the SQL database.
 An example of using HSQL is below.
 ```java
-package net.meawmere;
-
-import net.meawmere.HSQL.HSQL;
-import net.meawmere.HSQL.HSQLBuilder;
-import net.meawmere.HSQL.events.EventAdapter;
-import net.meawmere.HSQL.events.source.GET;
-import net.meawmere.HSQL.events.source.READY;
-import net.meawmere.HSQL.events.source.UPDATE;
-import org.jetbrains.annotations.NotNull;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class Test extends EventAdapter {
     public static HSQL hsql;
     public static void main(String[] args) throws SQLException {
